@@ -1,0 +1,16 @@
+-- One-off admin bootstrap. There is no self-serve admin registration (FR-38 is login-only).
+--
+-- Steps:
+--   1. Register the admin's account through the app's normal registration flow
+--      (as a customer), or create the auth user via Dashboard -> Authentication -> Add User.
+--   2. Copy this file to seed_admin.sql (gitignored), fill in the real email below, and
+--      run it once in the Supabase SQL editor. The SQL editor connects as `postgres`, not
+--      `authenticated`, so it's exempt from the prevent_privilege_escalation trigger
+--      (0002_profiles_rls.sql) that normally blocks role/status changes.
+--
+-- Do not commit a filled-in copy of this script — it would put a real admin email in git
+-- history. Keep the real one local only.
+
+update public.profiles
+set role = 'admin', status = 'active'
+where email = 'REPLACE_WITH_REAL_ADMIN_EMAIL';
